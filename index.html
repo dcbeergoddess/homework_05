@@ -68,6 +68,36 @@
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script type="text/javascript">
+    //My api key
+    var APIKey = "105f3341727436740b10e375a70600be";
+
+    var currentCity;
+
+    //creating placeholder city till I pass one in to make sure code works
+    currentCity = "London";
+
+    // url for current day weather
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + currentCity + "&appid=" +APIKey;
+    //added =imperial below for 5 day forecast to automatically convert to farenhiet 
+    var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + currentCity + "&appid=" + APIKey;
+
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response){
+      console.log(queryURL);
+      console.log(response);
+    })
+
+    $.ajax({
+      url: queryURL2,
+      method: "GET"
+    }).then(function(response2){
+      console.log(queryURL2);
+      console.log(response2);
+    })
+
+    
 
 
 
