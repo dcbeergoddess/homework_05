@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
+
 <body>
 
 
@@ -18,24 +20,60 @@
     <span class="navbar-brand mb-0 h1">Weather Dashboard</span>
   </nav>
 
-  <nav class="nav flex-column">
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search By City" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-    </form>
-  </nav>
+  <!-- need to specify columns and rows for the cards -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-header">
+            Search By City
+            <nav class="nav flex-column">
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Enter City Name" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+              </form>
+            </nav>
+          </div>
+        </div>
+        <!-- Using bootstrap list below as placeholder until start on click events for button
+          will look into lottery activity and how to save searches on page -->
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Cras justo odio</li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+      </div>
 
 
-  <script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
+
+      <!-- Bootstrap card to push forceast for current day and city selected into -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title" id="current-city">Current City and Date</h2>
+            <!-- Temperature degrees F-->
+            <!-- Humidity %-->
+            <!-- Wind Speed MPH -->
+            <!-- UV Index -->
+
+          </div>
+        </div>
+        <h3>5-Day Forecast:</h3>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
   <script type="text/javascript">
 
-    
-  
-  
+
+
+
   </script>
-  
+
 </body>
+
 </html>
