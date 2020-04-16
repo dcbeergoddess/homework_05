@@ -3,11 +3,12 @@ weather api
 Due Thursday 4_16_2020 12am
 
 # Psuedo Code
-## Acceptance Criteria
 
 ```
 GIVEN a weather dashboard with form inputs
+Create form with button to search for city
 WHEN I search for a city
+> when searched info drops into currentday/city card and gives 5 day forecast in second card
 THEN I am presented with current and future conditions for that city and that city is added to the search history
 WHEN I view current weather conditions for that city
 THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
