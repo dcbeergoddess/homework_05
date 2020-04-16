@@ -78,120 +78,154 @@
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script type="text/javascript">
-    /*
-      The 5-Day Forecast actually breaks down each day's forecast into hour blocks of 3, which will be 
-      really hard to parse. The function below will solve the problem: 
-      1) Create a global variable called forecastArray
-      2) After you make your 5-Day Forecast API call, call this function and pass in the list of weather objects
-      (response.list)
-      3. Once this function is done, your global forecast array will be populated.
-      4. Then loop through that array to create the 5 blue blocks at the bottom
-      5. You're welcome.  :)
-      // */ 
-    
-    //My api key
-    var APIKey = "105f3341727436740b10e375a70600be";
+    $(document).ready(function () {
+      //on click event here to fire off all...
+      // $("#city-search").on("click", function () {
+      //   event.preventDefault();
+        //My api key
+        var APIKey = "105f3341727436740b10e375a70600be";
 
-    var currentCity;
+        var currentCity;
 
-    //creating placeholder city till I pass one in to make sure code works
-    //need to figure out how to pass city search into this var
-    currentCity = "London";
+        //creating placeholder city till I pass one in to make sure code works
+        //need to figure out how to pass city search into this var
+        // currentCity = "London";
 
-    // url for current day weather
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + currentCity + "&appid=" + APIKey;
-    //added =imperial below for 5 day forecast to automatically convert to farenhiet but then took away for now 
-    var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + currentCity + "&appid=" + APIKey;
+        // url for current day weather
+        // var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + currentCity + "&appid=" + APIKey;
+        //added =imperial below for 5 day forecast to automatically convert to farenhiet but then took away for now 
+        // var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + currentCity + "&appid=" + APIKey;
 
-    // var queryURL3 = "http://api.openweathermap.org/data/2.5/uvi?&appid=" + APIKey + "lat=51.50&lon=-0.11";
+        // var queryURL3 = "http://api.openweathermap.org/data/2.5/uvi?&appid=" + APIKey + "lat=51.50&lon=-0.11";
 
-    // $.ajax({
-    //   url: queryURL3,
-    //   method: "GET"
-    // }).then(function (response3) {
-    //   console.log(response3);
-    // })
+        //will probably need to pass in the longitude/latitude from city search in order to grab UV index. right now api key not working for this function.
 
-    var forecastArray = [];
+        // $.ajax({
+        //   url: queryURL3,
+        //   method: "GET"
+        // }).then(function (response3) {
+        //   console.log(response3);
+        // })
 
-    function getForecastForEachDay(listOfForecasts) {
-      var currentDate = "";
-      for (var i = 0; i < listOfForecasts.length; i++) {
-        // We want to capture one weather object for each day in the list. Once we've captured that
-        // object, we can ignore all other objects for the same day
-        var dateOfListItem = listOfForecasts[i].dt_txt.split(" ")[0];
-        if (dateOfListItem !== currentDate) {
-          // We need to extract just the date part and ignore the time
-          currentDate = dateOfListItem;
-          // Push this weather object to the forecasts array
-          if (forecastArray.length < 5) {
-            forecastArray.push(listOfForecasts[i]);
-          }
-        }
+
+      function getCityInfo(currentCity) {
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + currentCity + "&appid=" + APIKey;
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).then(function (response) {
+          console.log(response);
+          console.log(response.name);
+          console.log(response.wind.speed);
+          console.log(response.main.humidity);
+          console.log(response.coord.lat);
+          console.log(response.coord.lon);
+
+
+          var currentCity = response.name;
+          var tempK = response.main.temp;
+          var humidity = response.main.humidity;
+          var windSpeed = response.wind.speed;
+          var cityLat = response.coord.lat;
+          var cityLon = response.coord.lon;
+          // need to look up where to find uvIndex. possibly under lat and long coord of location
+          // var uvIndex = response;
+
+          // Create CODE HERE to calculate the temperature (converted from Kelvin). need parse floast since numbers are in a float
+          var tempF = (parseFloat(tempK) - 273.15) * 1.80 + 32;
+
+          //Populate the DOM
+
+          $("h2").text(city);
+          $("div.wind-speed").text("Wind Speed: " + windSpeed + " MPH");
+          $("div.humidity").text("Humidity: " + humidity + "%");
+          $("div.temp").text("Temperature: " + tempF.toFixed(2) + " °F");
+
+          // var queryURL3 = "http://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey +"lat=" + cityLat + "&lon=" + cityLon;
+
+
+          // $.ajax({
+          //   url: queryURL3,
+          //   method: "GET"
+          // }).then(function (response3) {
+          //   console.log(response3);
+
+          //   // $("div.uv-index").text();
+
+          // });
+
+        });
       }
-    }
 
-    // function getCityInfo(cityInfo) {
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    }).then(function (response) {
-      console.log(response);
-      console.log(response.name);
-      console.log(response.wind.speed);
-      console.log(response.main.humidity);
-
-
-      var city = response.name;
-      var tempK = response.main.temp;
-      var humidity = response.main.humidity;
-      var windSpeed = response.wind.speed;
-      // need to look up where to find uvIndex. possibly under lat and long coord of location
-      // var uvIndex = response;
-
-      // Create CODE HERE to calculate the temperature (converted from Kelvin). need parse floast since numbers are in a float
-      var tempF = (parseFloat(tempK) - 273.15) * 1.80 + 32;
-
-      //Populate the DOM
-
-      $("h2").text(city);
-      $("div.wind-speed").text("Wind Speed: " + windSpeed + " MPH");
-      $("div.humidity").text("Humidity: " + humidity + "%");
-      $("div.temp").text("Temperature: " + tempF.toFixed(2) + " °F");
-      $("div.uv-index").text();
-
-
-    });
-    // }
-    // $("#citybuttons-here").on("click", function () {
-    //   event.preventDefault();
-    //   var cityInfo = $(this).text()
-    //   getCityInfo(cityInfo);
-    //   console.log(getCityInfo);
-    // })
-    function getFiveDayForecast(){
-      $.ajax({
-        url: queryURL2,
-        method: "GET"
-        //using .then(function are structured)
-      }).then(function (response2) {
-        var forecast = response2.list;
-        console.log(response2.list);
-        // $("#five-day").text(JSON.stringify(forecast));
-        getForecastForEachDay();
+      // on click event
+      $("#city-search").on("click", function () {
+         event.preventDefault();
+         var currentCity = $(this).text();
+         getCityInfo(currentCity);
+         console.log($(this))
       });
-      console.log(forecastArray);
-      console.log(forecast);
-    };
+        /*
+         The 5-Day Forecast actually breaks down each day's forecast into hour blocks of 3, which will be 
+         really hard to parse. The function below will solve the problem: 
+         1) Create a global variable called forecastArray
+         2) After you make your 5-Day Forecast API call, call this function and pass in the list of weather objects
+         (response.list)
+         3. Once this function is done, your global forecast array will be populated.
+         4. Then loop through that array to create the 5 blue blocks at the bottom
+         5. You're welcome.  :)
+         */
+        var forecastArray = [];
 
-  /*  
-  asycronist process, not sure when
-  make request to another resource and not sure how long it will take
-  getting authentication from API key
-  research into promises and how to handle data returning from a promise
-*/
+        function getForecastForEachDay(listOfForecasts) {
+          var currentDate = "";
+          for (var i = 0; i < listOfForecasts.length; i++) {
+            // We want to capture one weather object for each day in the list. Once we've captured that
+            // object, we can ignore all other objects for the same day
+            var dateOfListItem = listOfForecasts[i].dt_txt.split(" ")[0];
+            if (dateOfListItem !== currentDate) {
+              // We need to extract just the date part and ignore the time
+              currentDate = dateOfListItem;
+              // Push this weather object to the forecasts array
+              if (forecastArray.length < 5) {
+                forecastArray.push(listOfForecasts[i]);
+              }
+            }
+          }
+        };
 
 
+
+        // }
+        // $("#citybuttons-here").on("click", function () {
+        //   event.preventDefault();
+        //   var cityInfo = $(this).text()
+        //   getCityInfo(cityInfo);
+        //   console.log(getCityInfo);
+        // })
+        function getFiveDayForecast() {
+          $.ajax({
+            url: queryURL2,
+            method: "GET"
+            //using .then(function are structured)
+          }).then(function (response2) {
+            var forecast = response2.list;
+            console.log(response2.list);
+            $("#five-day").text(JSON.stringify(forecast));
+            getForecastForEachDay();
+          });
+          console.log(forecastArray);
+          console.log(forecast);
+        };
+
+
+        /*
+        asycronist process, not sure when
+        make request to another resource and not sure how long it will take
+        getting authentication from API key
+        research into promises and how to handle data returning from a promise
+      */
+      // });
+    })
 
 
   </script>
